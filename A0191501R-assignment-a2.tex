@@ -1,0 +1,73 @@
+% !TeX spellcheck = en_GB
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.3in]{geometry}
+
+%opening
+\title{Assignment A2}
+\author{\textbf{Anshul Aggarwal}\\A0191501R}
+
+\date{CS5240 Theoretical Foundations in Multimedia}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%
+%\end{abstract}
+
+A 3D model of a human head has been captured, by capturing $n$ points on the surface, and creating a mesh to approximate the shape of the original object. However, this 3D point-and-mesh model (represented by \textbf{L}) is very low resolution, and cannot be effectively used for purposes such as animations.
+
+There however exists a reference high-resolution model (\textbf{H}) of a different head, with $m$ captured points in the point-and-mesh model, such that $m >> n$. The objective is to create a high-resolution model \textbf{R}, by changing the shape of the model \textbf{H} to fit the target model \textbf{L} as closely as possible, to obtain a high-resolution model of a human head that closely resembles the one captured by model \textbf{L}.
+
+According to the given problem, the left-right plane of symmetry is the same as the $yz$ plane. 
+
+\section*{Inputs}
+
+\begin{itemize}
+    \item \sloppy Low resolution model \textbf{L} having $n$ mesh points with known coordinates $\textbf{v}_j = [v_{xj},v_{yj},v_{zj}]^\top$, $j=1,\dots,n$.
+    \item High resolution reference model \textbf{H} having $m$ mesh points with known coordinates $\textbf{u}_i = [u_{xi},u_{yi},u_{zi}]$, $i=1,\dots,m$.
+    \item $K$ Symmetric Landmark point pairs $\textbf{p}_k^- = [p_{xk}^-,p_{yk}^-,p_{zk}^-]^\top$ and $\textbf{p}_k^+ = [p_{xk}^+,p_{yk}^+,p_{zk}^+]^\top$, $k=1,\dots,K$ on the model \textbf{H}, such that they are symmetric about left-right symmetric plane ($yz$ plane).
+    \item Function $T$ denotes the transformation function from a point on \textbf{H} to a point on \textbf{R}, i.e. scaling, rotation and translation.
+    \item $S_x(a,b)$ denote the symmetry distance measurement function between two points, that calculates the distance of midpoint of $a,b$ along the $x$ axis from the $yz$ plane, and the distance of the two points w.r.t the $y$ and $z$ coordinates.
+    \item $\mathcal{E}$ is the set of mesh-edges in \textbf{H}.
+\end{itemize}
+
+\section*{Input Conditions}
+
+\begin{itemize}
+    \item $m>>n$
+    \item $\textbf{u}_i$ and $\textbf{v}_j$ are defined in the same coordinate system with origin \textit{O} being located at the centroid of both the models.
+\end{itemize}
+
+\section*{Outputs}
+
+\begin{itemize}
+    \item A point-and-mesh model R, obtained by Registration that changes shape of \textbf{H} to closely match \textbf{L}.
+\end{itemize}
+
+\section*{Constraints}
+Minimize the following error, represented by $E$:
+
+\begin{equation}
+    E= E_r + \alpha E_s + \beta E_a
+\end{equation}
+
+\noindent where $E_r$ is the error in reshaping \textbf{H} into the general shape of \textbf{L} to obtain \textbf{R}, as represented by equation \ref{er}. $E_s$ is the error in symmetry for Symmetric Landmark points in \textbf{R}, as represented in equation \ref{es}. Minimization of $E_a$, as given by equation \ref{ea}, represents the transformations of neighbours should not differ by much, to ensure a \textit{normal head model}. $\alpha$ and $\beta$ are the proportional-error-minimization constants.
+
+\begin{equation}\label{er}
+E_r = \sum_{j=1,\dots,n}{||\textbf{v}_i - T(\textbf{u}_i)||^2}
+\end{equation}
+
+
+\begin{equation}\label{es}
+E_s = \sum_{k=1,\dots,K}{S_x\Big(T(p_k^+), T(p_k^-)\Big)}
+\end{equation}
+
+
+\begin{equation}\label{ea}
+E_a = \sum_{(i,j) \in \mathcal{E}}{||T(\textbf{u}_j) - T(\textbf{u}_i)||^2}
+\end{equation}
+
+
+\end{document}

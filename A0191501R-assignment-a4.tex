@@ -1,0 +1,104 @@
+% !TeX spellcheck = en_GB
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.2in]{geometry}
+\usepackage{enumitem}
+
+%opening
+\title{Assignment A4}
+\author{\textbf{Anshul Aggarwal}\\A0191501R}
+
+\date{CS5240 Theoretical Foundations in Multimedia}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem Objective}
+
+Given a set of data points, $( x _ { i } , y _ { i } , z _ { i } , v _ { i })$, for $i = 1 , \dots , n$, related by the following equation:
+\begin{equation}\label{relationeq}
+    v _ { i } = a x _ { i } y _ { i } ^ { b } \exp \left( c z _ { i } + d \right)
+\end{equation}
+
+\noindent where $a,b,c$ and $d$ are function parameters. The objective is to arrange the equations into matrix form 
+\begin{equation}\label{matrixrep}
+\textbf{D} \textbf{u}=\textbf{v}
+\end{equation}
+
+\noindent where $\textbf{u}$ contains function parameters, and derive the solutions of $a,b,c$ and $d$ based on linear least squares, expressing the solutions in terms of $\textbf{u}$.
+
+\section*{Solution}
+
+To convert it into matrix form represented by equation \ref{matrixrep}, we need to convert equation \ref{relationeq} into additive form. For simplicity, let us consider $x_i, y_i, v_i \textrm{ and } a$ to be positive numbers. From equation \ref{relationeq}, taking natural logarithm on both sides
+
+\begin{equation}
+    \ln v_i = \ln a + \ln x_i + b\ln y_i + cz_i + d
+\end{equation}
+
+\noindent Rearranging terms, and combining like terms, we get
+%
+%\begin{equation}
+%    (1) \times \ln a  + (\ln y_i) \times b + (z_i)\times c + (1)\times d + (\ln x_i) \times (1) = \ln v_i
+%\end{equation}
+
+\begin{equation}
+(1) \times \big(\ln(a) + d\big) + (\ln y_i) \times b + (z_i)\times c + (\ln x_i) \times (1) = \ln v_i
+\end{equation}
+
+
+\noindent It is of note that $\ln (a) \textrm{ and } d$ are constants. Converting into matrix form, we get
+
+% This is incorrect, as the matrix is rank deficient. We need to combine ln a and d
+
+%
+%\begin{equation}
+%    \left[\begin{array}{ccccc} {1} & {\ln y_i} & {z_i} & {1} & {\ln x_i}\end{array} \right]
+%    \left[\begin{array}{c}{\ln a}\\ {b} \\ {c}\\ {d} \\ {1} \end{array}\right] = \left[ \begin{array}{c}\ln v_i \end{array}\right]
+%\end{equation}
+%
+
+
+\begin{equation}
+\left[\begin{array}{cccc} {1} & {\ln y_i} & {z_i} & {\ln x_i}\end{array} \right]
+\left[\begin{array}{c}{\ln(a) + d}\\ {b} \\ {c} \\ {1} \end{array}\right] = \left[ \begin{array}{c}\ln v_i \end{array}\right]
+\end{equation}
+
+\noindent Expanding representation using all points, we get
+%
+%\begin{equation}
+%\left[\begin{array}{ccccc} {1} & {\ln y_1} & {z_1} & {1} & {\ln x_1} \\  {1} & {\ln y_2} & {z_2} & {1} & {\ln x_2} \\ & & \vdots & & \\  {1} & {\ln y_n} & {z_n} & {1} & {\ln x_n}\end{array} \right]
+%\left[\begin{array}{c}{\ln a}\\ {b} \\ {c}\\ {d} \\ {1} \end{array}\right] = \left[ \begin{array}{c}\ln v_1 \\ \ln v_2 \\ \vdots \\ \ln v_n \end{array}\right]
+%\end{equation}
+
+
+\begin{equation}
+\left[\begin{array}{cccc} {1} & {\ln y_1} & {z_1} & {\ln x_1} \\  {1} & {\ln y_2} & {z_2} & {\ln x_2} \\ & \vdots & \vdots & \\  {1} & {\ln y_n} & {z_n} & {\ln x_n}\end{array} \right]
+\left[\begin{array}{c}{\ln(a) + d}\\ {b} \\ {c}\\ {1} \end{array}\right] = \left[ \begin{array}{c}\ln v_1 \\ \ln v_2 \\ \vdots \\ \ln v_n \end{array}\right]
+\end{equation}
+
+\noindent Which can be written in the form of equation \ref{matrixrep}, where 
+
+%\vspace{1em}
+\begin{center}
+\fbox{%
+    \parbox{0.85\textwidth}{%
+%\[ \textbf{D} = \left[\begin{array}{ccccc} {1} & {\ln y_1} & {z_1} & {1} & {\ln x_1} \\  {1} & {\ln y_2} & {z_2} & {1} & {\ln x_2} \\ & & \vdots & & \\  {1} & {\ln y_n} & {z_n} & {1} & {\ln x_n}\end{array} \right], \hspace*{0.5em} \textbf{u} = \left[\begin{array}{c}{\ln a}\\ {b} \\ {c}\\ {d} \\ {1} \end{array}\right], \textrm{ and } \textbf{v} = \left[ \begin{array}{c}\ln v_1 \\ \ln v_2 \\ \vdots \\ \ln v_n \end{array}\right] \]
+\[ \textbf{D} = \left[\begin{array}{cccc} {1} & {\ln y_1} & {z_1} & {\ln x_1} \\  {1} & {\ln y_2} & {z_2} & {\ln x_2} \\ & \vdots & \vdots & \\  {1} & {\ln y_n} & {z_n} &  {\ln x_n}\end{array} \right], \hspace*{0.5em} \textbf{u} = \left[\begin{array}{c}{\ln(a) + d}\\ {b} \\ {c} \\ {1} \end{array}\right], \textrm{ and } \textbf{v} = \left[ \begin{array}{c}\ln v_1 \\ \ln v_2 \\ \vdots \\ \ln v_n \end{array}\right] \]
+}%
+}
+
+\end{center}
+\noindent Considering the matrix $\textbf{D}$ is full rank, i.e. rank($\textbf{D}$) = 4, then $\textbf{D}^\top\textbf{D}$ has an inverse. This means
+\begin{equation}\label{solutionrep}
+\textbf{u}=(\textbf{D}^\top\textbf{D})^{-1} \textbf{D}^\top\textbf{v}
+\end{equation}
+
+\subsection*{Note}
+
+\begin{itemize}
+    \item $a$ and $d$ cannot be independently solved, as both are part of the constant term in the original equation. Any combination of a and d that satisfies the equality constraint for $\ln (a) + d$ will be a solution.
+\end{itemize}
+
+
+
+\end{document}

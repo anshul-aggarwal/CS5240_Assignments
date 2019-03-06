@@ -1,0 +1,79 @@
+% !TeX spellcheck = en_GB
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.2in]{geometry}
+
+%opening
+\title{Assignment A3}
+\author{\textbf{Anshul Aggarwal}\\A0191501R}
+
+\date{CS5240 Theoretical Foundations in Multimedia}
+
+\begin{document}
+
+\maketitle
+
+\section{Observations}
+
+\subsection{Known}
+
+\begin{itemize}
+    \item 2D contour model M, with contour points $\textbf{p}_i, i=1,\dots,m$, and feature vector $\textbf{v}_i$ along contour curve.
+    \item 2D X-Ray image I with $n$ pixels $\textbf{x}_j,j=1\dots,n$.
+    \item Non-rigid transformation function in 2D.
+    \item Surface shape feature function.
+    \item Image feature function.
+\end{itemize}
+
+\subsection{Unknown}
+
+\begin{itemize}
+    \item Correspondence function that gives the corresponding points from M to I.
+    \item Resultant contour model R on I.
+\end{itemize}
+
+\subsection{Relationships}
+
+\begin{itemize}
+    \item Function S denotes non-rigid 2D shape change, which changes 2D point $\textbf{p}_i$ on M to $S(\textbf{p}_i)$ on R.
+    \item $\textbf{p}_i$ on M maps to $C(\textbf{p}_i)$ on I. 
+    \item R should fit the pelvis shape on I as close as possible. This means the transformed point $S(\textbf{p}_i)$ should be as close as possible to the corresponding point $C(\textbf{p}_i)$ on I.
+    \item Function F defines the shape feature on a contour point. Shape feature $F(\textbf{p}_i)$ is roughly equal to the shape feature $F(S(\textbf{p}_i))$ after non-rigid registration.  
+    \item Function W defines the image feature at a point. The Image features at the corresponding points, given by $W(C(\textbf{p}_i))$ should be as close as possible to expected image features $\textbf{v}_i$. 
+\end{itemize}
+
+\section{Problem Definition}
+
+\subsection{Inputs}
+
+\begin{itemize}
+    \item Reference 2D contour model M, with contour points $\textbf{p}_i, i=1,\dots,m$, and image feature vector $\textbf{v}_i,i=1,\dots,m$ along contour curve.
+    \item 2D X-Ray image I with $n$ pixels $\textbf{x}_j,j=1\dots,n$.
+    \item Non-rigid transformation function in 2D, $S$.
+    \item Surface shape feature function, $F$.
+    \item Image feature function, $W$.
+\end{itemize}
+
+
+\subsection{Outputs}
+
+\begin{itemize}
+    \item Correspondence function that gives the corresponding points from M to I.
+    \item Resultant contour model R, with contour points $S(\textbf{p}_i), i=1,\dots,m$.
+\end{itemize}
+
+\subsection{Constraints}
+
+\begin{itemize}
+    \item Minimize the following sum-squared error $E$
+    \[
+    E = \sum _ { i = 1 } ^ { m } \left\| S \left( \mathbf { p } _ { i } \right) - C \left( \mathbf { p } _ { i } \right) \right\| ^ { 2 }
+    \]
+    \item Also minimize error $E_w$
+    \[
+        E = \sum _ { i = 1 } ^ { m } \left\| W(C \left( \mathbf { p } _ { i } \right)) - \mathbf { v } _ { i } \right\| ^ { 2 }
+    \]
+    
+    \item The above are subject to the following soft constraints.
+    \subitem $F(\textbf{p}_i) = F(S(\textbf{p}_i)), i=1,\dots,m$.
+\end{itemize}
+\end{document}

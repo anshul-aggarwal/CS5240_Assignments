@@ -1,0 +1,93 @@
+% !TeX spellcheck = en_GB
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.3in]{geometry}
+
+%opening
+\title{Assignment A1}
+\author{\textbf{Anshul Aggarwal}\\A0191501R}
+
+\date{CS5240 Theoretical Foundations in Multimedia}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%
+%\end{abstract}
+
+An object is kept in a 3D space. The 3D coordinates of each feature point of the object are known initially in the world coordinate system, then it is moved to a certain position with a certain orientation. Cameras are placed at different positions with different orientations, which click pictures of the object, each from its own perspective. The position of each feature point of the object on each of the images is known. The problem is to find out the original position and orientation of the object from the given information. 
+
+\section*{Inputs}
+
+\begin{itemize}
+    \item A 3D object with unknown position $\textbf{p}$ and orientation $\textbf{q}$, having $\textbf{n}$ feature points.
+    \item Coordinates of $i^{th}$ feature point $\textbf{u}_i$ in world coordinate system, before moving to unknown position $\textbf{p}$ and orientation $\textbf{q}$, where the corresponding coordinates are $\textbf{v}_i$.
+    \item $K$ cameras with positions $\textbf{p}_k$ and orientations $\textbf{q}_k$ that click $K$ images of the object, labelled $I_k$.
+    \item $i^{th}$ feature point is represented on image $I_k$ by 2D coordinates $\textbf{x}_{ki}$
+\end{itemize}
+
+\section*{Outputs}
+
+\begin{itemize}
+    \item Position $\textbf{p}$ and Orientation $\textbf{q}$ of the object, from the given information.
+\end{itemize}
+
+\section*{Approach}
+
+Let $\textbf{S}_o$ represent the spatial information for the object, and $\textbf{S}_k$ for $k^{th}$ camera. Then,
+
+
+\begin{equation}
+\textbf{S}_o = \langle \textbf{p},\textbf{q} \rangle
+\end{equation}
+\begin{equation}
+\textbf{S}_k = \langle \textbf{p}_k,\textbf{q}_k \rangle
+\end{equation}
+
+Let function $\textbf{f}$ map position and orientation of object or camera to 3D coordinates. Considering the object has been placed at the appropriate position and orientation, for any feature point $i$ on the object,
+\begin{equation}
+    \textbf{v}_i = \textbf{f}(\textbf{S}_o, i)
+\end{equation}
+Considering a camera to be a point object (with only one feature point $i=1$) that can capture an image of an object, the 3D coordinates of the camera can be represented by $\textbf{w}_k$ such that
+\begin{equation}
+    \textbf{w}_k = \textbf{f}(\textbf{S}_k, 1)
+\end{equation}
+
+Consider an image capturing function $\textbf{c}$ that maps a point in space to a 2D point on an image as captured by a camera. Then,
+\begin{equation}
+    \textbf{x}_{ki} = \textbf{c}(\textbf{v}_i, \textbf{w}_k)
+\end{equation}
+
+If function $\textbf{c}^\prime$ combines all image points to regenerate feature point coordinates, then using equation 5, we derive
+
+\begin{equation}
+ \textbf{v}_i = \textbf{c}^\prime\Big(\forall_{k=1,\dots,k}	 \textbf{c}^{-1}(\textbf{x}_{ki}, \textbf{w}_k)\Big)
+\end{equation}
+
+Now, consider reconstruction function $\textbf{r}$ that reconstructs spatial information of an object from all its feature points. Then using equation 3, we derive
+
+\begin{equation}
+\textbf{S}_o = \textbf{r}\Big(\forall_{i=1,\dots,n}	 \textbf{f}^{-1}(\textbf{v}_{i}, i)\Big)
+\end{equation}
+
+Using equation 6 in 7, we get
+
+\begin{equation}
+\textbf{S}_o = \textbf{r}\Bigg(\forall_{i=1,\dots,n} \textbf{f}^{-1}\bigg(\textbf{c}^\prime\Big(\forall_{k=1,\dots,k}	 \textbf{c}^{-1}(\textbf{x}_{ki}, \textbf{w}_k)\Big), i\bigg)\Bigg)
+\end{equation}
+
+Using equation 4 in 8, we get
+
+\begin{equation}
+\textbf{S}_o = \textbf{r}\Bigg(\forall_{i=1,\dots,n}	 \textbf{f}^{-1}\bigg(\textbf{c}^\prime\bigg(\forall_{k=1,\dots,k}	 \textbf{c}^{-1}\Big(\textbf{x}_{ki}, \textbf{f}(\textbf{S}_k, 1)\Big)\bigg), i\bigg)\Bigg)
+\end{equation}
+
+From equation 1, 2 and 9, we get
+
+\begin{equation}
+\langle \textbf{p},\textbf{q} \rangle = \textbf{r}\Bigg(\forall_{i=1,\dots,n}	 \textbf{f}^{-1}\bigg(\textbf{c}^\prime\bigg(\forall_{k=1,\dots,k}	 \textbf{c}^{-1}\Big(\textbf{x}_{ki}, \textbf{f}(\langle \textbf{p}_k,\textbf{q}_k \rangle, 1)\Big)\bigg), i\bigg)\Bigg)
+\end{equation}
+which is the required result.
+
+\end{document}
